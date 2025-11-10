@@ -5,6 +5,7 @@ Advanced workout tracking plugin for Obsidian with AI-powered analysis using Cla
 ## ✨ Features
 
 ### 📝 Workout Tracking
+
 - ✅ **Template-based workouts** - Select from 5 default templates or create custom ones
 - ✅ Quick workout entry with modal interface
 - ✅ Track weight, reps, RPE, heart rate for each set
@@ -14,12 +15,14 @@ Advanced workout tracking plugin for Obsidian with AI-powered analysis using Cla
 - ✅ Progress tracking within workout (exercise X of Y)
 
 ### ⏱️ Built-in Tools
+
 - ✅ Rest timer with countdown and notifications
 - ✅ Quick add exercise to today's workout
 - ✅ Progressive volume and set tracking
 - ✅ Duration tracking
 
 ### 🤖 AI-Powered Analysis
+
 - ✅ Claude API integration for intelligent workout analysis
 - ✅ Progress tracking (weights, reps, volume)
 - ✅ Program recommendations
@@ -28,10 +31,25 @@ Advanced workout tracking plugin for Obsidian with AI-powered analysis using Cla
 - ✅ Personalized training advice
 
 ### 📊 Data Organization
+
 - ✅ Uses Obsidian Base (properties in frontmatter)
 - ✅ Markdown files for full-text search
 - ✅ Git-friendly version control
 - ✅ No external dependencies
+
+Below are some screenshots of the app in action:
+
+### New Workout Selection
+
+![New Workout Selection](assets/NewWorkout.png)
+
+### Template Management
+
+![Template Management](assets/TemplateManagement.png)
+
+### Workout Session
+
+![Workout Session](assets/WorkoutSession.png)
 
 ## 🚀 Installation
 
@@ -75,18 +93,21 @@ Copy `main.js`, `manifest.json`, and `styles.css` to your vault's plugins folder
 ### Starting a Workout
 
 **Method 1: Ribbon Icon**
+
 - Click the 🏋️ icon in the left ribbon
 - Select a template from the list (Day 1, Day 2, Day 3, Quick Upper, Quick Lower)
 - Click "Начать" to start the workout with pre-configured exercises
 - Or click "Создать пустую тренировку" for a custom workout
 
 **Method 2: Command Palette**
+
 - Press `Cmd/Ctrl + P`
 - Type "Start new workout"
 - Press Enter
 - Select your template
 
 **Method 3: Hotkey** (configure in settings)
+
 - Set custom hotkey for "Start new workout"
 
 ### Using Workout Templates
@@ -94,18 +115,22 @@ Copy `main.js`, `manifest.json`, and `styles.css` to your vault's plugins folder
 The plugin comes with 5 default templates based on your optimized training program:
 
 1. **Day 1 - Спина и бицепс** (60 min, 7 exercises)
+
    - Back and biceps focused workout
    - Includes Bent Over Row, Lat Pulldown, Seated Row, Face Pull, Hammer Curl, Cable Curl, Back Extension
 
 2. **Day 2 - Грудь, плечи и трицепс** (65 min, 8 exercises)
+
    - Chest, shoulders, and triceps
    - Includes Bench Press, Incline Press, Overhead Press, Lateral Raise, Reverse Fly, Tricep Pushdown
 
 3. **Day 3 - Ноги и пресс** (70 min, 9 exercises)
+
    - Legs and abs
    - Includes Goblet Squat, Leg Press, Romanian Deadlift, Bulgarian Split Squat, Leg Curl, Calf Raise, Abs exercises
 
 4. **Quick Upper Body** (30 min, 4 exercises)
+
    - Fast upper body workout
    - Push-ups, Pull-ups, Overhead Press, Dumbbell Row
 
@@ -114,6 +139,7 @@ The plugin comes with 5 default templates based on your optimized training progr
    - Goblet Squat, Lunges, Romanian Deadlift, Calf Raises
 
 **Managing Templates:**
+
 - Press `Cmd/Ctrl + P` and type "Manage workout templates"
 - **✏️ Edit** any template (default or custom):
   - Default templates: Creates a new custom copy when saved
@@ -124,6 +150,7 @@ The plugin comes with 5 default templates based on your optimized training progr
 - Custom templates are saved in plugin data.json (persistent, synced with vault)
 
 **Template Editor Features:**
+
 - Edit template name, description, and tags
 - Add/remove/reorder exercises within the template
 - Configure sets, reps range (min-max), and rest time for each exercise
@@ -148,6 +175,7 @@ When using a template, the plugin guides you through each exercise:
 9. **Finish Workout** - Save to markdown file when done
 
 **Template-Free Workouts:**
+
 - Choose "Создать пустую тренировку" for custom workouts
 - Manually enter each exercise name as you go
 - Add sets one at a time with full flexibility
@@ -162,6 +190,7 @@ When using a template, the plugin guides you through each exercise:
 ### AI Analysis
 
 **Analyze Recent Workouts:**
+
 1. Open any note
 2. Press `Cmd/Ctrl + P`
 3. Type "Analyze workouts with AI"
@@ -169,6 +198,7 @@ When using a template, the plugin guides you through each exercise:
 5. Analysis inserted into current note
 
 **What AI Analyzes:**
+
 - 📈 Progress trends (weight/reps/volume)
 - 💡 Program recommendations
 - 😴 Recovery assessment
@@ -191,7 +221,7 @@ type: workout
 
 # Day 1 - Спина и бицепс
 
-📅 2025-11-08  |  ⏱️ 45 мин  |  💪 18 подходов  |  📊 2450 кг объем
+📅 2025-11-08 | ⏱️ 45 мин | 💪 18 подходов | 📊 2450 кг объем
 
 ## 🏃 Разминка
 
@@ -206,18 +236,18 @@ type: workout
 ### Bent Over Row (Barbell)
 
 | Подход | Вес (кг) | Повторения | RPE | Пульс | Отдых (сек) |
-|--------|----------|------------|-----|-------|-------------|
-| 1 | 20 | 12 | 7 | 135 | 90 |
-| 2 | 20 | 12 | 8 | 138 | 90 |
-| 3 | 20 | 12 | 9 | 142 | 90 |
+| ------ | -------- | ---------- | --- | ----- | ----------- |
+| 1      | 20       | 12         | 7   | 135   | 90          |
+| 2      | 20       | 12         | 8   | 138   | 90          |
+| 3      | 20       | 12         | 9   | 142   | 90          |
 
 ### Lat Pulldown (Machine)
 
 | Подход | Вес (кг) | Повторения | RPE | Пульс | Отдых (сек) |
-|--------|----------|------------|-----|-------|-------------|
-| 1 | 40 | 12 | 7 | 130 | 90 |
-| 2 | 40 | 12 | 8 | 133 | 90 |
-| 3 | 40 | 11 | 9 | 137 | 90 |
+| ------ | -------- | ---------- | --- | ----- | ----------- |
+| 1      | 40       | 12         | 7   | 130   | 90          |
+| 2      | 40       | 12         | 8   | 133   | 90          |
+| 3      | 40       | 11         | 9   | 137   | 90          |
 
 ## 🏃 Заминка
 
@@ -235,6 +265,7 @@ type: workout
 ### Obsidian Base Properties
 
 Properties automatically added to frontmatter:
+
 - `date` - Workout date (YYYY-MM-DD)
 - `program` - Program name
 - `duration` - Total minutes
@@ -290,21 +321,24 @@ Create a template in `Templates/Workout Template.md`:
 
 ```markdown
 ---
-date: {{date}}
-program: {{title}}
+date: { { date } }
+program: { { title } }
 type: workout
 ---
 
 # {{title}}
 
 ## Warmup
+
 - [ ] 10 min elliptical
 
 ## Exercises
+
 - [ ] Exercise 1
 - [ ] Exercise 2
 
 ## Cooldown
+
 - [ ] 10 min elliptical
 ```
 
@@ -316,6 +350,7 @@ Create `Workouts Dashboard.md`:
 # 🏋️ Workout Dashboard
 
 ## This Week
+
 ```dataview
 LIST duration + " min"
 FROM "Workouts"
@@ -324,6 +359,7 @@ SORT date DESC
 ```
 
 ## Total Volume by Program
+
 ```dataview
 TABLE WITHOUT ID
   program as "Program",
@@ -335,6 +371,7 @@ GROUP BY program
 ```
 
 ## Recent PRs
+
 ```dataview
 TABLE date, program, totalVolume
 FROM "Workouts"
@@ -347,6 +384,7 @@ LIMIT 5
 ## 🤝 Contributing
 
 Contributions welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
