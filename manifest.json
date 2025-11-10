@@ -1,0 +1,10 @@
+{
+  "id": "workout-ai-tracker",
+  "name": "Workout AI Tracker",
+  "version": "1.0.0",
+  "minAppVersion": "1.9.0",
+  "description": "Advanced workout tracker with AI analysis powered by Claude. Track exercises, analyze progress, and get personalized recommendations.",
+  "author": "avlihachev",
+  "authorUrl": "https://github.com/avlihachev/workouts",
+  "isDesktopOnly": false
+}
