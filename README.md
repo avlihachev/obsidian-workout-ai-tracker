@@ -96,8 +96,8 @@ Copy `main.js`, `manifest.json`, and `styles.css` to your vault's plugins folder
 
 - Click the 🏋️ icon in the left ribbon
 - Select a template from the list (Day 1, Day 2, Day 3, Quick Upper, Quick Lower)
-- Click "Начать" to start the workout with pre-configured exercises
-- Or click "Создать пустую тренировку" for a custom workout
+- Click "Start" to begin the workout with pre-configured exercises
+- Or click "Create Empty Workout" for a custom workout
 
 **Method 2: Command Palette**
 
@@ -114,17 +114,17 @@ Copy `main.js`, `manifest.json`, and `styles.css` to your vault's plugins folder
 
 The plugin comes with 5 default templates based on your optimized training program:
 
-1. **Day 1 - Спина и бицепс** (60 min, 7 exercises)
+1. **Day 1 - Back and Biceps** (60 min, 7 exercises)
 
    - Back and biceps focused workout
    - Includes Bent Over Row, Lat Pulldown, Seated Row, Face Pull, Hammer Curl, Cable Curl, Back Extension
 
-2. **Day 2 - Грудь, плечи и трицепс** (65 min, 8 exercises)
+2. **Day 2 - Chest, Shoulders and Triceps** (65 min, 8 exercises)
 
    - Chest, shoulders, and triceps
    - Includes Bench Press, Incline Press, Overhead Press, Lateral Raise, Reverse Fly, Tricep Pushdown
 
-3. **Day 3 - Ноги и пресс** (70 min, 9 exercises)
+3. **Day 3 - Legs and Abs** (70 min, 9 exercises)
 
    - Legs and abs
    - Includes Goblet Squat, Leg Press, Romanian Deadlift, Bulgarian Split Squat, Leg Curl, Calf Raise, Abs exercises
@@ -176,7 +176,7 @@ When using a template, the plugin guides you through each exercise:
 
 **Template-Free Workouts:**
 
-- Choose "Создать пустую тренировку" for custom workouts
+- Choose "Create Empty Workout" for custom workouts
 - Manually enter each exercise name as you go
 - Add sets one at a time with full flexibility
 
@@ -212,54 +212,54 @@ When using a template, the plugin guides you through each exercise:
 ```markdown
 ---
 date: 2025-11-08
-program: Day 1 - Спина и бицепс
+program: Day 1 - Back and Biceps
 duration: 45
 totalSets: 18
 totalVolume: 2450
 type: workout
 ---
 
-# Day 1 - Спина и бицепс
+# Day 1 - Back and Biceps
 
-📅 2025-11-08 | ⏱️ 45 мин | 💪 18 подходов | 📊 2450 кг объем
+📅 2025-11-08 | ⏱️ 45 min | 💪 18 sets | 📊 2450 kg volume
 
-## 🏃 Разминка
+## 🏃 Warmup
 
-- **Тип:** Elliptical
-- **Длительность:** 10 мин
-- **Нагрузка:** 7
-- **Наклон:** 8
-- **Средний пульс:** 118 уд/мин
+- **Type:** Elliptical
+- **Duration:** 10 min
+- **Resistance:** 7
+- **Incline:** 8
+- **Average HR:** 118 bpm
 
-## 💪 Упражнения
+## 💪 Exercises
 
 ### Bent Over Row (Barbell)
 
-| Подход | Вес (кг) | Повторения | RPE | Пульс | Отдых (сек) |
-| ------ | -------- | ---------- | --- | ----- | ----------- |
-| 1      | 20       | 12         | 7   | 135   | 90          |
-| 2      | 20       | 12         | 8   | 138   | 90          |
-| 3      | 20       | 12         | 9   | 142   | 90          |
+| Set | Weight (kg) | Reps | RPE | HR | Rest (sec) |
+| --- | ----------- | ---- | --- | --- | ---------- |
+| 1   | 20          | 12   | 7   | 135 | 90         |
+| 2   | 20          | 12   | 8   | 138 | 90         |
+| 3   | 20          | 12   | 9   | 142 | 90         |
 
 ### Lat Pulldown (Machine)
 
-| Подход | Вес (кг) | Повторения | RPE | Пульс | Отдых (сек) |
-| ------ | -------- | ---------- | --- | ----- | ----------- |
-| 1      | 40       | 12         | 7   | 130   | 90          |
-| 2      | 40       | 12         | 8   | 133   | 90          |
-| 3      | 40       | 11         | 9   | 137   | 90          |
+| Set | Weight (kg) | Reps | RPE | HR | Rest (sec) |
+| --- | ----------- | ---- | --- | --- | ---------- |
+| 1   | 40          | 12   | 7   | 130 | 90         |
+| 2   | 40          | 12   | 8   | 133 | 90         |
+| 3   | 40          | 11   | 9   | 137 | 90         |
 
-## 🏃 Заминка
+## 🏃 Cooldown
 
-- **Тип:** Elliptical
-- **Длительность:** 10 мин
-- **Нагрузка:** 7
-- **Наклон:** 8
-- **Средний пульс:** 115 уд/мин
+- **Type:** Elliptical
+- **Duration:** 10 min
+- **Resistance:** 7
+- **Incline:** 8
+- **Average HR:** 115 bpm
 
-## 📝 Заметки
+## 📝 Notes
 
-Отличная тренировка! Чувствую прогресс в тягах.
+Great workout! Feeling progress on rows.
 ```
 
 ### Obsidian Base Properties
@@ -289,7 +289,7 @@ TABLE WITHOUT ID
   duration as "Duration (min)",
   totalVolume as "Volume (kg)"
 FROM "Workouts"
-WHERE program = "Day 1 - Спина и бицепс"
+WHERE program = "Day 1 - Back and Biceps"
 SORT date DESC
 ```
 

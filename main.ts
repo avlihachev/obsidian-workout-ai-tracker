@@ -2,6 +2,7 @@ import {
   App,
   Editor,
   MarkdownView,
+  MarkdownFileInfo,
   Modal,
   Notice,
   Plugin,
@@ -107,7 +108,7 @@ export default class WorkoutAIPlugin extends Plugin {
     this.addCommand({
       id: "analyze-workouts",
       name: "Analyze workouts with AI",
-      editorCallback: async (editor: Editor, ctx: any) => {
+      editorCallback: async (_editor: Editor, ctx: MarkdownView | MarkdownFileInfo) => {
         if (ctx instanceof MarkdownView) {
           await this.analyzeWorkouts(ctx);
         }
@@ -149,12 +150,10 @@ export default class WorkoutAIPlugin extends Plugin {
 
     // Settings tab
     this.addSettingTab(new WorkoutAISettingTab(this.app, this));
-
-    console.log("Workout AI Tracker plugin loaded");
   }
 
   onunload() {
-    console.log("Workout AI Tracker plugin unloaded");
+    // Plugin cleanup
   }
 
   async loadSettings() {
@@ -290,7 +289,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
       new Notice("Analysis complete!");
     } catch (error) {
-      console.error("AI Analysis error:", error);
+      console.warn("AI analysis failed:", error);
       new Notice("Failed to analyze workouts. Check API key and connection.");
     }
   }
@@ -365,7 +364,7 @@ class WorkoutModal extends Modal {
     contentEl.empty();
     contentEl.addClass("workout-modal");
 
-    contentEl.createEl("h2", { text: "🏋️ New Workout" });
+    contentEl.createEl("h2", { text: "🏋️ New workout" });
     contentEl.createEl("p", { text: "Select a workout program" });
 
     // Get all templates
@@ -377,7 +376,7 @@ class WorkoutModal extends Modal {
     templates.forEach((template) => {
       const templateCard = templatesContainer.createDiv("template-card");
 
-      const title = templateCard.createEl("h3", { text: template.name });
+      templateCard.createEl("h3", { text: template.name });
 
       if (template.description) {
         templateCard.createEl("p", {
@@ -404,7 +403,7 @@ class WorkoutModal extends Modal {
 
       // Start button
       const startBtn = templateCard.createEl("button", {
-        text: "Start",
+        text: "Start workout",
         cls: "mod-cta",
       });
 
@@ -440,7 +439,7 @@ class WorkoutModal extends Modal {
 
   startFromTemplate(template: WorkoutTemplate) {
     const session: WorkoutSession = {
-      date: (window as any).moment().format("YYYY-MM-DD"),
+      date: (window as unknown as { moment: () => { format: (format: string) => string } }).moment().format("YYYY-MM-DD"),
       program: template.name,
       warmup: template.warmup,
       exercises: [],
@@ -459,7 +458,7 @@ class WorkoutModal extends Modal {
 
   startCustomWorkout() {
     const session: WorkoutSession = {
-      date: (window as any).moment().format("YYYY-MM-DD"),
+      date: (window as unknown as { moment: () => { format: (format: string) => string } }).moment().format("YYYY-MM-DD"),
       program: "Custom Workout",
       exercises: [],
       duration: 0,
@@ -544,7 +543,7 @@ class ExerciseTrackingModal extends Modal {
 
     // Finish button
     const finishBtn = contentEl.createEl("button", {
-      text: "Finish Workout",
+      text: "Finish workout",
       cls: "finish-workout-btn",
     });
     finishBtn.addEventListener("click", async () => {
@@ -571,7 +570,7 @@ class ExerciseTrackingModal extends Modal {
       this.renderContent();
     });
 
-    const expandIcon = headerRow.createEl("span", {
+    headerRow.createEl("span", {
       text: isExpanded ? "▼" : "▶",
       cls: "expand-icon",
     });
@@ -582,7 +581,7 @@ class ExerciseTrackingModal extends Modal {
       cls: "exercise-name",
     });
 
-    const info = title.createEl("span", {
+    title.createEl("span", {
       text: `${exerciseTemplate.sets}×${exerciseTemplate.repsMin}-${exerciseTemplate.repsMax} • ${exerciseTemplate.restSeconds}s`,
       cls: "exercise-info-inline",
     });
@@ -591,7 +590,7 @@ class ExerciseTrackingModal extends Modal {
     const completedSets =
       this.session.exercises.find((e) => e.name === exerciseTemplate.name)?.sets
         .length || 0;
-    const progress = headerRow.createEl("span", {
+    headerRow.createEl("span", {
       text: `${completedSets}/${exerciseTemplate.sets}`,
       cls:
         completedSets >= exerciseTemplate.sets
@@ -845,11 +844,11 @@ class TemplateEditorModal extends Modal {
     contentEl.empty();
     contentEl.addClass("template-editor-modal");
 
-    contentEl.createEl("h2", { text: "✏️ Edit Template" });
+    contentEl.createEl("h2", { text: "✏️ Edit template" });
 
     // Basic info section
     const basicSection = contentEl.createDiv("editor-section");
-    basicSection.createEl("h3", { text: "Basic Information" });
+    basicSection.createEl("h3", { text: "Basic information" });
     new Setting(basicSection).setName("Name").addText((text) =>
       text.setValue(this.editableTemplate.name).onChange((value) => {
         this.editableTemplate.name = value;
@@ -866,7 +865,7 @@ class TemplateEditorModal extends Modal {
     );
 
     new Setting(basicSection)
-      .setName("Estimated Duration (minutes)")
+      .setName("Estimated duration (minutes)")
       .addText((text) =>
         text
           .setValue(String(this.editableTemplate.estimatedDuration))
@@ -914,7 +913,7 @@ class TemplateEditorModal extends Modal {
 
     // Warmup/Cooldown section
     const cardioSection = contentEl.createDiv("editor-section");
-    cardioSection.createEl("h3", { text: "Warmup and Cooldown" });
+    cardioSection.createEl("h3", { text: "Warmup and cooldown" });
 
     const warmupEnabled = this.editableTemplate.warmup !== undefined;
     new Setting(cardioSection).setName("Warmup").addToggle((toggle) =>
@@ -935,7 +934,45 @@ class TemplateEditorModal extends Modal {
 
     if (this.editableTemplate.warmup) {
       new Setting(cardioSection)
-        .setName("Warmup Duration (minutes)")
+        .setName("Warmup type")
+        .addDropdown((dropdown) =>
+          dropdown
+            // Cardio equipment
+            .addOption("Elliptical", "Elliptical")
+            .addOption("Treadmill", "Treadmill")
+            .addOption("Rowing", "Rowing machine")
+            .addOption("Bike", "Stationary bike")
+            .addOption("Stairmaster", "Stairmaster")
+            // Light cardio
+            .addOption("Walk", "Walking")
+            .addOption("Jog", "Light jog")
+            .addOption("Jump rope", "Jump rope")
+            .addOption("Swimming", "Swimming")
+            // Mobility & flexibility
+            .addOption("Dynamic stretching", "Dynamic stretching")
+            .addOption("Joint mobility", "Joint mobility")
+            .addOption("Activation exercises", "Activation exercises")
+            .addOption("Band work", "Resistance band work")
+            // Recovery
+            .addOption("Foam rolling", "Foam rolling")
+            .addOption("Massage gun", "Massage gun")
+            // Sport specific
+            .addOption("Shadow boxing", "Shadow boxing")
+            .addOption("Sport drills", "Sport-specific drills")
+            .addOption("Agility ladder", "Agility ladder")
+            // Other
+            .addOption("Custom", "Custom")
+            .setValue(this.editableTemplate.warmup?.type || "Elliptical")
+            .onChange((value) => {
+              if (this.editableTemplate.warmup) {
+                this.editableTemplate.warmup.type = value;
+                this.onOpen(); // Refresh to show/hide fields
+              }
+            })
+        );
+
+      new Setting(cardioSection)
+        .setName("Warmup duration (minutes)")
         .addText((text) =>
           text
             .setValue(String(this.editableTemplate.warmup?.duration || 10))
@@ -945,6 +982,38 @@ class TemplateEditorModal extends Modal {
               }
             })
         );
+
+      // Show resistance/incline only for cardio equipment
+      const cardioTypes = ["Elliptical", "Treadmill", "Rowing", "Bike", "Stairmaster"];
+      if (cardioTypes.includes(this.editableTemplate.warmup.type)) {
+        new Setting(cardioSection)
+          .setName("Resistance level (optional)")
+          .addText((text) =>
+            text
+              .setValue(String(this.editableTemplate.warmup?.resistance || ""))
+              .setPlaceholder("1-20")
+              .onChange((value) => {
+                if (this.editableTemplate.warmup) {
+                  const level = parseInt(value);
+                  this.editableTemplate.warmup.resistance = level > 0 ? level : undefined;
+                }
+              })
+          );
+
+        new Setting(cardioSection)
+          .setName("Incline level (optional)")
+          .addText((text) =>
+            text
+              .setValue(String(this.editableTemplate.warmup?.incline || ""))
+              .setPlaceholder("0-15")
+              .onChange((value) => {
+                if (this.editableTemplate.warmup) {
+                  const level = parseInt(value);
+                  this.editableTemplate.warmup.incline = level >= 0 ? level : undefined;
+                }
+              })
+          );
+      }
     }
 
     const cooldownEnabled = this.editableTemplate.cooldown !== undefined;
@@ -966,7 +1035,45 @@ class TemplateEditorModal extends Modal {
 
     if (this.editableTemplate.cooldown) {
       new Setting(cardioSection)
-        .setName("Cooldown Duration (minutes)")
+        .setName("Cooldown type")
+        .addDropdown((dropdown) =>
+          dropdown
+            // Light cardio
+            .addOption("Walk", "Walking")
+            .addOption("Jog", "Light jog")
+            .addOption("Elliptical", "Elliptical")
+            .addOption("Treadmill", "Treadmill")
+            .addOption("Rowing", "Rowing machine")
+            .addOption("Bike", "Stationary bike")
+            .addOption("Swimming", "Swimming")
+            // Stretching & flexibility
+            .addOption("Static stretching", "Static stretching")
+            .addOption("Dynamic stretching", "Dynamic stretching")
+            .addOption("PNF stretching", "PNF stretching")
+            .addOption("Yoga poses", "Yoga poses")
+            .addOption("Pilates", "Pilates exercises")
+            // Recovery & restoration
+            .addOption("Foam rolling", "Foam rolling")
+            .addOption("Massage gun", "Massage gun")
+            .addOption("Lacrosse ball", "Lacrosse ball work")
+            .addOption("Ice bath", "Ice bath / Cold therapy")
+            .addOption("Sauna", "Sauna")
+            // Breathing & relaxation
+            .addOption("Breathing exercises", "Breathing exercises")
+            .addOption("Meditation", "Meditation")
+            // Other
+            .addOption("Custom", "Custom")
+            .setValue(this.editableTemplate.cooldown?.type || "Walk")
+            .onChange((value) => {
+              if (this.editableTemplate.cooldown) {
+                this.editableTemplate.cooldown.type = value;
+                this.onOpen(); // Refresh to show/hide fields
+              }
+            })
+        );
+
+      new Setting(cardioSection)
+        .setName("Cooldown duration (minutes)")
         .addText((text) =>
           text
             .setValue(String(this.editableTemplate.cooldown?.duration || 10))
@@ -976,17 +1083,49 @@ class TemplateEditorModal extends Modal {
               }
             })
         );
+
+      // Show resistance/incline only for cardio equipment
+      const cardioTypes = ["Elliptical", "Treadmill", "Rowing", "Bike", "Stairmaster"];
+      if (cardioTypes.includes(this.editableTemplate.cooldown.type)) {
+        new Setting(cardioSection)
+          .setName("Resistance level (optional)")
+          .addText((text) =>
+            text
+              .setValue(String(this.editableTemplate.cooldown?.resistance || ""))
+              .setPlaceholder("1-20")
+              .onChange((value) => {
+                if (this.editableTemplate.cooldown) {
+                  const level = parseInt(value);
+                  this.editableTemplate.cooldown.resistance = level > 0 ? level : undefined;
+                }
+              })
+          );
+
+        new Setting(cardioSection)
+          .setName("Incline level (optional)")
+          .addText((text) =>
+            text
+              .setValue(String(this.editableTemplate.cooldown?.incline || ""))
+              .setPlaceholder("0-15")
+              .onChange((value) => {
+                if (this.editableTemplate.cooldown) {
+                  const level = parseInt(value);
+                  this.editableTemplate.cooldown.incline = level >= 0 ? level : undefined;
+                }
+              })
+          );
+      }
     }
 
     // Save/Cancel buttons
     const buttonsDiv = contentEl.createDiv("editor-buttons");
 
     const saveBtn = buttonsDiv.createEl("button", {
-      text: "💾 Save",
+      text: "💾 Save template",
       cls: "mod-cta",
     });
     saveBtn.addEventListener("click", () => {
-      this.saveTemplate();
+      void this.saveTemplate();
     });
 
     const cancelBtn = buttonsDiv.createEl("button", {
@@ -1020,7 +1159,7 @@ class TemplateEditorModal extends Modal {
       });
 
       // Exercise fields
-      new Setting(exerciseCard).setName("Exercise Name").addText((text) =>
+      new Setting(exerciseCard).setName("Exercise name").addText((text) =>
         text.setValue(exercise.name).onChange((value) => {
           exercise.name = value;
         })
@@ -1053,7 +1192,7 @@ class TemplateEditorModal extends Modal {
       );
 
       new Setting(exerciseCard)
-        .setName("Target Weight (kg, optional)")
+        .setName("Target weight (kg, optional)")
         .addText((text) =>
           text
             .setValue(String(exercise.targetWeight || ""))
@@ -1132,7 +1271,7 @@ class TemplateManagementModal extends Modal {
     contentEl.empty();
     contentEl.addClass("template-management-modal");
 
-    contentEl.createEl("h2", { text: "📋 Template Management" });
+    contentEl.createEl("h2", { text: "📋 Template management" });
 
     const templates = this.plugin.templateManager.getAllTemplates();
 
@@ -1152,7 +1291,7 @@ class TemplateManagementModal extends Modal {
 
       // Edit button
       actions
-        .createEl("button", { text: "✏️ Edit" })
+        .createEl("button", { text: "✏️ Edit template" })
         .addEventListener("click", () => {
           this.close();
           new TemplateEditorModal(this.app, this.plugin, template).open();
@@ -1160,7 +1299,7 @@ class TemplateManagementModal extends Modal {
 
       // Duplicate button
       actions
-        .createEl("button", { text: "📋 Duplicate" })
+        .createEl("button", { text: "📋 Duplicate template" })
         .addEventListener("click", async () => {
           const duplicate = await this.plugin.templateManager.duplicateTemplate(
             template.id
@@ -1175,7 +1314,7 @@ class TemplateManagementModal extends Modal {
       if (!this.plugin.templateManager.isDefaultTemplate(template.id)) {
         // Custom template - can be deleted
         actions
-          .createEl("button", { text: "🗑️ Delete" })
+          .createEl("button", { text: "🗑️ Delete template" })
           .addEventListener("click", async () => {
             await this.plugin.templateManager.deleteTemplate(template.id);
             new Notice(`Template deleted: ${template.name}`);
@@ -1184,7 +1323,7 @@ class TemplateManagementModal extends Modal {
       } else if (this.plugin.templateManager.isModifiedDefault(template.id)) {
         // Modified default template - can be reset
         actions
-          .createEl("button", { text: "🔄 Reset to Default" })
+          .createEl("button", { text: "🔄 Reset to default" })
           .addEventListener("click", async () => {
             await this.plugin.templateManager.resetToDefault(template.id);
             new Notice(`Template reset to default: ${template.name}`);
@@ -1192,16 +1331,17 @@ class TemplateManagementModal extends Modal {
           });
       } else {
         // Unmodified default template
-        const defaultLabel = actions.createEl("span", { text: "(built-in)" });
-        defaultLabel.style.color = "var(--text-muted)";
-        defaultLabel.style.fontSize = "12px";
+        actions.createEl("span", {
+          text: "(built-in)",
+          cls: "default-template-label"
+        });
       }
     });
 
     // Add new template button
     new Setting(contentEl).addButton((btn) =>
       btn
-        .setButtonText("+ Create New Template")
+        .setButtonText("+ Create new template")
         .setCta()
         .onClick(() => {
           // Create empty template
@@ -1241,10 +1381,10 @@ class WorkoutAISettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Workout AI Tracker Settings" });
+    containerEl.createEl("h2", { text: "Workout AI tracker settings" });
 
     new Setting(containerEl)
-      .setName("Claude API Key")
+      .setName("Claude API key")
       .setDesc("Your Anthropic Claude API key for AI analysis")
       .addText((text) =>
         text
@@ -1257,7 +1397,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("Workouts Folder")
+      .setName("Workouts folder")
       .setDesc("Folder where workout files will be saved")
       .addText((text) =>
         text
@@ -1270,7 +1410,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("Default Rest Time")
+      .setName("Default rest time")
       .setDesc("Default rest time between sets (seconds)")
       .addText((text) =>
         text
@@ -1283,7 +1423,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("Enable Notifications")
+      .setName("Enable notifications")
       .setDesc("Show notifications for rest timer and workout events")
       .addToggle((toggle) =>
         toggle

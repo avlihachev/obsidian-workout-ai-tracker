@@ -541,6 +541,11 @@
   margin-top: 20px;
 }
 
+.default-template-label {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
 /* Template Management */
 .modal-content.template-management-modal {
   /* min-width: 400px !important;
