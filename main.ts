@@ -269,7 +269,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
   async analyzeWorkouts(view: MarkdownView) {
     if (!this.settings.claudeApiKey) {
-      new Notice("Please set your Claude api key in settings");
+      new Notice("Please set your Claude API key in settings");
       return;
     }
 
@@ -280,7 +280,7 @@ export default class WorkoutAIPlugin extends Plugin {
       return;
     }
 
-    new Notice("Analyzing workouts with ai...");
+    new Notice("Analyzing workouts with AI...");
 
     try {
       const analysis = await this.getAIAnalysis(workouts);
@@ -293,7 +293,7 @@ export default class WorkoutAIPlugin extends Plugin {
       new Notice("Analysis complete!");
     } catch (error) {
       console.warn("AI analysis failed:", error);
-      new Notice("Failed to analyze workouts - check api key and connection");
+      new Notice("Failed to analyze workouts - check API key and connection");
     }
   }
 
@@ -1428,14 +1428,14 @@ class WorkoutAISettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setHeading()
-      .setName("Workout ai tracker settings");
+      .setName("Workout AI tracker settings");
 
     new Setting(containerEl)
-      .setName("Claude api key")
+      .setName("Claude API key")
       .setDesc("Claude key for analysis")
       .addText((text) =>
         text
-          .setPlaceholder("sk-ant-...")
+          .setPlaceholder("Enter your Claude API key")
           .setValue(this.plugin.settings.claudeApiKey)
           .onChange(async (value) => {
             this.plugin.settings.claudeApiKey = value;
