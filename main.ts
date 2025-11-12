@@ -209,7 +209,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
     // Warmup
     if (session.warmup) {
-      markdown += `## 🏃 Warmup \n\n`;
+      markdown += `## 🏃 warmup \n\n`;
       markdown += `- **Type:** ${session.warmup.type}\n`;
       markdown += `- **Duration:** ${session.warmup.duration} min\n`;
       if (session.warmup.resistance)
@@ -222,7 +222,7 @@ export default class WorkoutAIPlugin extends Plugin {
     }
 
     // Exercises
-    markdown += `## 💪 Exercises\n\n`;
+    markdown += `## 💪 exercises\n\n`;
     session.exercises.forEach((exercise) => {
       markdown += `### ${exercise.name}\n\n`;
       markdown += `| Set | Weight (kg) | Reps | RPE | Heart Rate | Rest (sec) |\n`;
@@ -243,7 +243,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
     // Cooldown
     if (session.cooldown) {
-      markdown += `## 🏃 Cooldown\n\n`;
+      markdown += `## 🏃 cooldown\n\n`;
       markdown += `- **Type:** ${session.cooldown.type}\n`;
       markdown += `- **Duration:** ${session.cooldown.duration} min\n`;
       if (session.cooldown.resistance)
@@ -912,7 +912,7 @@ class TemplateEditorModal extends Modal {
 
     // Exercises section
     const exercisesSection = contentEl.createDiv("editor-section");
-    new Setting(exercisesSection).setHeading().setName("Exercises");
+    new Setting(exercisesSection).setHeading().setName("exercises");
 
     const exercisesList = exercisesSection.createDiv("exercises-list");
     this.renderExercises(exercisesList);
@@ -934,10 +934,10 @@ class TemplateEditorModal extends Modal {
 
     // Warmup/Cooldown section
     const cardioSection = contentEl.createDiv("editor-section");
-    new Setting(cardioSection).setHeading().setName("Warmup and cooldown");
+    new Setting(cardioSection).setHeading().setName("warmup and cooldown");
 
     const warmupEnabled = this.editableTemplate.warmup !== undefined;
-    new Setting(cardioSection).setName("Warmup").addToggle((toggle) =>
+    new Setting(cardioSection).setName("warmup").addToggle((toggle) =>
       toggle.setValue(warmupEnabled).onChange((enabled) => {
         if (enabled && !this.editableTemplate.warmup) {
           this.editableTemplate.warmup = {
@@ -955,7 +955,7 @@ class TemplateEditorModal extends Modal {
 
     if (this.editableTemplate.warmup) {
       new Setting(cardioSection)
-        .setName("Warmup type")
+        .setName("warmup type")
         .addDropdown((dropdown) =>
           dropdown
             // Cardio equipment
@@ -993,7 +993,7 @@ class TemplateEditorModal extends Modal {
         );
 
       new Setting(cardioSection)
-        .setName("Warmup duration (minutes)")
+        .setName("warmup duration (minutes)")
         .addText((text) =>
           text
             .setValue(String(this.editableTemplate.warmup?.duration || 10))
@@ -1046,7 +1046,7 @@ class TemplateEditorModal extends Modal {
     }
 
     const cooldownEnabled = this.editableTemplate.cooldown !== undefined;
-    new Setting(cardioSection).setName("Cooldown").addToggle((toggle) =>
+    new Setting(cardioSection).setName("cooldown").addToggle((toggle) =>
       toggle.setValue(cooldownEnabled).onChange((enabled) => {
         if (enabled && !this.editableTemplate.cooldown) {
           this.editableTemplate.cooldown = {
@@ -1064,7 +1064,7 @@ class TemplateEditorModal extends Modal {
 
     if (this.editableTemplate.cooldown) {
       new Setting(cardioSection)
-        .setName("Cooldown type")
+        .setName("cooldown type")
         .addDropdown((dropdown) =>
           dropdown
             // Light cardio
@@ -1100,7 +1100,7 @@ class TemplateEditorModal extends Modal {
         );
 
       new Setting(cardioSection)
-        .setName("Cooldown duration (minutes)")
+        .setName("cooldown duration (minutes)")
         .addText((text) =>
           text
             .setValue(String(this.editableTemplate.cooldown?.duration || 10))
