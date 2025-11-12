@@ -1121,7 +1121,7 @@ class TemplateEditorModal extends Modal {
     const buttonsDiv = contentEl.createDiv("editor-buttons");
 
     const saveBtn = buttonsDiv.createEl("button", {
-      text: "💾 Save template",
+      text: "Save template",
       cls: "mod-cta",
     });
     saveBtn.addEventListener("click", () => {
@@ -1150,7 +1150,7 @@ class TemplateEditorModal extends Modal {
       });
 
       const deleteBtn = header.createEl("button", {
-        text: "🗑️",
+        text: "Delete",
         cls: "exercise-delete-btn",
       });
       deleteBtn.addEventListener("click", () => {
@@ -1291,7 +1291,7 @@ class TemplateManagementModal extends Modal {
 
       // Edit button
       actions
-        .createEl("button", { text: "✏️ Edit template" })
+        .createEl("button", { text: "Edit template" })
         .addEventListener("click", () => {
           this.close();
           new TemplateEditorModal(this.app, this.plugin, template).open();
@@ -1299,7 +1299,7 @@ class TemplateManagementModal extends Modal {
 
       // Duplicate button
       actions
-        .createEl("button", { text: "📋 Duplicate template" })
+        .createEl("button", { text: "Duplicate template" })
         .addEventListener("click", async () => {
           const duplicate = await this.plugin.templateManager.duplicateTemplate(
             template.id
@@ -1314,7 +1314,7 @@ class TemplateManagementModal extends Modal {
       if (!this.plugin.templateManager.isDefaultTemplate(template.id)) {
         // Custom template - can be deleted
         actions
-          .createEl("button", { text: "🗑️ Delete template" })
+          .createEl("button", { text: "Delete template" })
           .addEventListener("click", async () => {
             await this.plugin.templateManager.deleteTemplate(template.id);
             new Notice(`Template deleted: ${template.name}`);
@@ -1323,7 +1323,7 @@ class TemplateManagementModal extends Modal {
       } else if (this.plugin.templateManager.isModifiedDefault(template.id)) {
         // Modified default template - can be reset
         actions
-          .createEl("button", { text: "🔄 Reset to default" })
+          .createEl("button", { text: "Reset to default" })
           .addEventListener("click", async () => {
             await this.plugin.templateManager.resetToDefault(template.id);
             new Notice(`Template reset to default: ${template.name}`);
