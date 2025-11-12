@@ -364,7 +364,7 @@ class WorkoutModal extends Modal {
     contentEl.empty();
     contentEl.addClass("workout-modal");
 
-    contentEl.createEl("h2", { text: "🏋️ New workout" });
+    new Setting(contentEl).setHeading().setName("New workout");
     contentEl.createEl("p", { text: "Select a workout program" });
 
     // Get all templates
@@ -376,7 +376,7 @@ class WorkoutModal extends Modal {
     templates.forEach((template) => {
       const templateCard = templatesContainer.createDiv("template-card");
 
-      templateCard.createEl("h3", { text: template.name });
+      templateCard.createEl("div", { text: template.name, cls: "template-card-title" });
 
       if (template.description) {
         templateCard.createEl("p", {
@@ -509,7 +509,7 @@ class ExerciseTrackingModal extends Modal {
 
     // Header
     const header = contentEl.createDiv("workout-header");
-    header.createEl("h2", { text: this.session.program });
+    header.createEl("div", { text: this.session.program, cls: "workout-session-title" });
 
     // Summary stats
     const stats = contentEl.createDiv("workout-stats");
@@ -754,7 +754,7 @@ class QuickExerciseModal extends Modal {
 
   onOpen() {
     const { contentEl } = this;
-    contentEl.createEl("h2", { text: "⚡ Quick Add" });
+    new Setting(contentEl).setHeading().setName("Quick add");
     // Implementation for quick exercise addition
     contentEl.createEl("p", {
       text: "Quickly add an exercise to today's workout",
@@ -844,11 +844,11 @@ class TemplateEditorModal extends Modal {
     contentEl.empty();
     contentEl.addClass("template-editor-modal");
 
-    contentEl.createEl("h2", { text: "✏️ Edit template" });
+    new Setting(contentEl).setHeading().setName("Edit template");
 
     // Basic info section
     const basicSection = contentEl.createDiv("editor-section");
-    basicSection.createEl("h3", { text: "Basic information" });
+    new Setting(basicSection).setHeading().setName("Basic information");
     new Setting(basicSection).setName("Name").addText((text) =>
       text.setValue(this.editableTemplate.name).onChange((value) => {
         this.editableTemplate.name = value;
@@ -891,7 +891,7 @@ class TemplateEditorModal extends Modal {
 
     // Exercises section
     const exercisesSection = contentEl.createDiv("editor-section");
-    exercisesSection.createEl("h3", { text: "Exercises" });
+    new Setting(exercisesSection).setHeading().setName("Exercises");
 
     const exercisesList = exercisesSection.createDiv("exercises-list");
     this.renderExercises(exercisesList);
@@ -913,7 +913,7 @@ class TemplateEditorModal extends Modal {
 
     // Warmup/Cooldown section
     const cardioSection = contentEl.createDiv("editor-section");
-    cardioSection.createEl("h3", { text: "Warmup and cooldown" });
+    new Setting(cardioSection).setHeading().setName("Warmup and cooldown");
 
     const warmupEnabled = this.editableTemplate.warmup !== undefined;
     new Setting(cardioSection).setName("Warmup").addToggle((toggle) =>
@@ -1271,7 +1271,7 @@ class TemplateManagementModal extends Modal {
     contentEl.empty();
     contentEl.addClass("template-management-modal");
 
-    contentEl.createEl("h2", { text: "📋 Template management" });
+    new Setting(contentEl).setHeading().setName("Template management");
 
     const templates = this.plugin.templateManager.getAllTemplates();
 
@@ -1280,7 +1280,7 @@ class TemplateManagementModal extends Modal {
       const templateItem = contentEl.createDiv("template-management-item");
 
       const header = templateItem.createDiv("template-header");
-      header.createEl("h3", { text: template.name });
+      header.createEl("div", { text: template.name, cls: "template-management-title" });
 
       const info = templateItem.createDiv("template-info");
       info.createEl("span", {
@@ -1381,7 +1381,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Workout AI tracker settings" });
+    new Setting(containerEl).setHeading().setName("Workout AI tracker settings");
 
     new Setting(containerEl)
       .setName("Claude API key")
