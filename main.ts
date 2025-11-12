@@ -108,7 +108,10 @@ export default class WorkoutAIPlugin extends Plugin {
     this.addCommand({
       id: "analyze-workouts",
       name: "Analyze workouts with AI",
-      editorCallback: async (_editor: Editor, ctx: MarkdownView | MarkdownFileInfo) => {
+      editorCallback: async (
+        _editor: Editor,
+        ctx: MarkdownView | MarkdownFileInfo
+      ) => {
         if (ctx instanceof MarkdownView) {
           await this.analyzeWorkouts(ctx);
         }
@@ -376,7 +379,10 @@ class WorkoutModal extends Modal {
     templates.forEach((template) => {
       const templateCard = templatesContainer.createDiv("template-card");
 
-      templateCard.createEl("div", { text: template.name, cls: "template-card-title" });
+      templateCard.createEl("div", {
+        text: template.name,
+        cls: "template-card-title",
+      });
 
       if (template.description) {
         templateCard.createEl("p", {
@@ -439,7 +445,13 @@ class WorkoutModal extends Modal {
 
   startFromTemplate(template: WorkoutTemplate) {
     const session: WorkoutSession = {
-      date: (window as unknown as { moment: () => { format: (format: string) => string } }).moment().format("YYYY-MM-DD"),
+      date: (
+        window as unknown as {
+          moment: () => { format: (format: string) => string };
+        }
+      )
+        .moment()
+        .format("YYYY-MM-DD"),
       program: template.name,
       warmup: template.warmup,
       exercises: [],
@@ -458,7 +470,13 @@ class WorkoutModal extends Modal {
 
   startCustomWorkout() {
     const session: WorkoutSession = {
-      date: (window as unknown as { moment: () => { format: (format: string) => string } }).moment().format("YYYY-MM-DD"),
+      date: (
+        window as unknown as {
+          moment: () => { format: (format: string) => string };
+        }
+      )
+        .moment()
+        .format("YYYY-MM-DD"),
       program: "Custom workout",
       exercises: [],
       duration: 0,
@@ -509,7 +527,10 @@ class ExerciseTrackingModal extends Modal {
 
     // Header
     const header = contentEl.createDiv("workout-header");
-    header.createEl("div", { text: this.session.program, cls: "workout-session-title" });
+    header.createEl("div", {
+      text: this.session.program,
+      cls: "workout-session-title",
+    });
 
     // Summary stats
     const stats = contentEl.createDiv("workout-stats");
@@ -796,7 +817,7 @@ class RestTimerModal extends Modal {
       timerDisplay.setText(this.formatTime(this.seconds));
 
       if (this.seconds <= 0) {
-        new Notice("⏰ Rest time is over!");
+        new Notice("Rest time is over!");
         this.close();
       }
     }, 1000);
@@ -880,7 +901,7 @@ class TemplateEditorModal extends Modal {
       .addText((text) =>
         text
           .setValue(this.editableTemplate.tags?.join(", ") || "")
-          .setPlaceholder("strength, mass, legs")
+          .setPlaceholder("Strength, mass, legs")
           .onChange((value) => {
             this.editableTemplate.tags = value
               .split(",")
@@ -984,7 +1005,13 @@ class TemplateEditorModal extends Modal {
         );
 
       // Show resistance/incline only for cardio equipment
-      const cardioTypes = ["Elliptical", "Treadmill", "Rowing", "Bike", "Stairmaster"];
+      const cardioTypes = [
+        "Elliptical",
+        "Treadmill",
+        "Rowing",
+        "Bike",
+        "Stairmaster",
+      ];
       if (cardioTypes.includes(this.editableTemplate.warmup.type)) {
         new Setting(cardioSection)
           .setName("Resistance level (optional)")
@@ -995,7 +1022,8 @@ class TemplateEditorModal extends Modal {
               .onChange((value) => {
                 if (this.editableTemplate.warmup) {
                   const level = parseInt(value);
-                  this.editableTemplate.warmup.resistance = level > 0 ? level : undefined;
+                  this.editableTemplate.warmup.resistance =
+                    level > 0 ? level : undefined;
                 }
               })
           );
@@ -1009,7 +1037,8 @@ class TemplateEditorModal extends Modal {
               .onChange((value) => {
                 if (this.editableTemplate.warmup) {
                   const level = parseInt(value);
-                  this.editableTemplate.warmup.incline = level >= 0 ? level : undefined;
+                  this.editableTemplate.warmup.incline =
+                    level >= 0 ? level : undefined;
                 }
               })
           );
@@ -1049,14 +1078,12 @@ class TemplateEditorModal extends Modal {
             // Stretching & flexibility
             .addOption("Static stretching", "Static stretching")
             .addOption("Dynamic stretching", "Dynamic stretching")
-            .addOption("PNF stretching", "PNF stretching")
             .addOption("Yoga poses", "Yoga poses")
             .addOption("Pilates", "Pilates exercises")
             // Recovery & restoration
             .addOption("Foam rolling", "Foam rolling")
             .addOption("Massage gun", "Massage gun")
             .addOption("Lacrosse ball", "Lacrosse ball work")
-            .addOption("Ice bath", "Ice bath / Cold therapy")
             .addOption("Sauna", "Sauna")
             // Breathing & relaxation
             .addOption("Breathing exercises", "Breathing exercises")
@@ -1085,18 +1112,27 @@ class TemplateEditorModal extends Modal {
         );
 
       // Show resistance/incline only for cardio equipment
-      const cardioTypes = ["Elliptical", "Treadmill", "Rowing", "Bike", "Stairmaster"];
+      const cardioTypes = [
+        "Elliptical",
+        "Treadmill",
+        "Rowing",
+        "Bike",
+        "Stairmaster",
+      ];
       if (cardioTypes.includes(this.editableTemplate.cooldown.type)) {
         new Setting(cardioSection)
           .setName("Resistance level (optional)")
           .addText((text) =>
             text
-              .setValue(String(this.editableTemplate.cooldown?.resistance || ""))
+              .setValue(
+                String(this.editableTemplate.cooldown?.resistance || "")
+              )
               .setPlaceholder("1-20")
               .onChange((value) => {
                 if (this.editableTemplate.cooldown) {
                   const level = parseInt(value);
-                  this.editableTemplate.cooldown.resistance = level > 0 ? level : undefined;
+                  this.editableTemplate.cooldown.resistance =
+                    level > 0 ? level : undefined;
                 }
               })
           );
@@ -1110,7 +1146,8 @@ class TemplateEditorModal extends Modal {
               .onChange((value) => {
                 if (this.editableTemplate.cooldown) {
                   const level = parseInt(value);
-                  this.editableTemplate.cooldown.incline = level >= 0 ? level : undefined;
+                  this.editableTemplate.cooldown.incline =
+                    level >= 0 ? level : undefined;
                 }
               })
           );
@@ -1280,7 +1317,10 @@ class TemplateManagementModal extends Modal {
       const templateItem = contentEl.createDiv("template-management-item");
 
       const header = templateItem.createDiv("template-header");
-      header.createEl("div", { text: template.name, cls: "template-management-title" });
+      header.createEl("div", {
+        text: template.name,
+        cls: "template-management-title",
+      });
 
       const info = templateItem.createDiv("template-info");
       info.createEl("span", {
@@ -1302,9 +1342,8 @@ class TemplateManagementModal extends Modal {
         .createEl("button", { text: "Duplicate template" })
         .addEventListener("click", () => {
           void (async () => {
-            const duplicate = await this.plugin.templateManager.duplicateTemplate(
-              template.id
-            );
+            const duplicate =
+              await this.plugin.templateManager.duplicateTemplate(template.id);
             if (duplicate) {
               new Notice(`Template duplicated: ${duplicate.name}`);
               this.onOpen(); // Refresh
@@ -1339,7 +1378,7 @@ class TemplateManagementModal extends Modal {
         // Unmodified default template
         actions.createEl("span", {
           text: "(built-in)",
-          cls: "default-template-label"
+          cls: "default-template-label",
         });
       }
     });
@@ -1387,11 +1426,13 @@ class WorkoutAISettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl).setHeading().setName("Workout AI tracker settings");
+    new Setting(containerEl)
+      .setHeading()
+      .setName("Workout AI tracker settings");
 
     new Setting(containerEl)
       .setName("Claude API key")
-      .setDesc("Your Claude API key for AI analysis")
+      .setDesc("Claude key for analysis")
       .addText((text) =>
         text
           .setPlaceholder("sk-ant-...")
