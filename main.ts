@@ -92,7 +92,7 @@ export default class WorkoutAIPlugin extends Plugin {
     this.templateManager = new TemplateManager(this);
 
     // Add ribbon icon
-    this.addRibbonIcon("activity", "Start Workout", () => {
+    this.addRibbonIcon("activity", "Start workout", () => {
       new WorkoutModal(this.app, this).open();
     });
 
@@ -532,7 +532,7 @@ class ExerciseTrackingModal extends Modal {
     } else {
       // Custom workout - allow adding exercises manually
       const addExerciseBtn = exerciseList.createEl("button", {
-        text: "+ Add Exercise",
+        text: "Add exercise",
         cls: "add-exercise-btn",
       });
       addExerciseBtn.addEventListener("click", () => {
@@ -546,8 +546,8 @@ class ExerciseTrackingModal extends Modal {
       text: "Finish workout",
       cls: "finish-workout-btn",
     });
-    finishBtn.addEventListener("click", async () => {
-      await this.finishWorkout();
+    finishBtn.addEventListener("click", () => {
+      void this.finishWorkout();
     });
   }
 
@@ -656,7 +656,7 @@ class ExerciseTrackingModal extends Modal {
       });
 
       const addBtn = form.createEl("button", {
-        text: "+ Add Set",
+        text: "Add set",
         cls: "add-set-btn",
       });
 
@@ -898,7 +898,7 @@ class TemplateEditorModal extends Modal {
 
     // Add exercise button
     new Setting(exercisesSection).addButton((btn) =>
-      btn.setButtonText("+ Add Exercise").onClick(() => {
+      btn.setButtonText("Add exercise").onClick(() => {
         this.editableTemplate.exercises.push({
           name: "New Exercise",
           sets: 3,
@@ -1300,14 +1300,16 @@ class TemplateManagementModal extends Modal {
       // Duplicate button
       actions
         .createEl("button", { text: "Duplicate template" })
-        .addEventListener("click", async () => {
-          const duplicate = await this.plugin.templateManager.duplicateTemplate(
-            template.id
-          );
-          if (duplicate) {
-            new Notice(`Template duplicated: ${duplicate.name}`);
-            this.onOpen(); // Refresh
-          }
+        .addEventListener("click", () => {
+          void (async () => {
+            const duplicate = await this.plugin.templateManager.duplicateTemplate(
+              template.id
+            );
+            if (duplicate) {
+              new Notice(`Template duplicated: ${duplicate.name}`);
+              this.onOpen(); // Refresh
+            }
+          })();
         });
 
       // Delete/Reset button
@@ -1315,19 +1317,23 @@ class TemplateManagementModal extends Modal {
         // Custom template - can be deleted
         actions
           .createEl("button", { text: "Delete template" })
-          .addEventListener("click", async () => {
-            await this.plugin.templateManager.deleteTemplate(template.id);
-            new Notice(`Template deleted: ${template.name}`);
-            this.onOpen(); // Refresh
+          .addEventListener("click", () => {
+            void (async () => {
+              await this.plugin.templateManager.deleteTemplate(template.id);
+              new Notice(`Template deleted: ${template.name}`);
+              this.onOpen(); // Refresh
+            })();
           });
       } else if (this.plugin.templateManager.isModifiedDefault(template.id)) {
         // Modified default template - can be reset
         actions
           .createEl("button", { text: "Reset to default" })
-          .addEventListener("click", async () => {
-            await this.plugin.templateManager.resetToDefault(template.id);
-            new Notice(`Template reset to default: ${template.name}`);
-            this.onOpen(); // Refresh
+          .addEventListener("click", () => {
+            void (async () => {
+              await this.plugin.templateManager.resetToDefault(template.id);
+              new Notice(`Template reset to default: ${template.name}`);
+              this.onOpen(); // Refresh
+            })();
           });
       } else {
         // Unmodified default template
@@ -1341,7 +1347,7 @@ class TemplateManagementModal extends Modal {
     // Add new template button
     new Setting(contentEl).addButton((btn) =>
       btn
-        .setButtonText("+ Create new template")
+        .setButtonText("Create new template")
         .setCta()
         .onClick(() => {
           // Create empty template
@@ -1385,7 +1391,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Claude API key")
-      .setDesc("Your Anthropic Claude API key for AI analysis")
+      .setDesc("Your Claude API key for AI analysis")
       .addText((text) =>
         text
           .setPlaceholder("sk-ant-...")

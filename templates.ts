@@ -498,12 +498,12 @@ export class TemplateManager {
   }
 
   // Get last weights for exercises in a template
-  async getLastWeights(
+  getLastWeights(
     template: WorkoutTemplate,
     workoutsFolder: string
   ): Promise<Map<string, number>> {
     // This would query recent workout files to get last used weights
     // For now, return empty map - will be implemented with file system access
-    return new Map();
+    return Promise.resolve(new Map());
   }
 }
