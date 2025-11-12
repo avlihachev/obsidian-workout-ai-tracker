@@ -293,7 +293,7 @@ export default class WorkoutAIPlugin extends Plugin {
       new Notice("Analysis complete!");
     } catch (error) {
       console.warn("AI analysis failed:", error);
-      new Notice("Failed to analyze workouts. Check api key and connection.");
+      new Notice("Failed to analyze workouts - check api key and connection");
     }
   }
 
