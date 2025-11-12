@@ -459,7 +459,7 @@ class WorkoutModal extends Modal {
   startCustomWorkout() {
     const session: WorkoutSession = {
       date: (window as unknown as { moment: () => { format: (format: string) => string } }).moment().format("YYYY-MM-DD"),
-      program: "Custom Workout",
+      program: "Custom workout",
       exercises: [],
       duration: 0,
       totalSets: 0,
@@ -900,7 +900,7 @@ class TemplateEditorModal extends Modal {
     new Setting(exercisesSection).addButton((btn) =>
       btn.setButtonText("Add exercise").onClick(() => {
         this.editableTemplate.exercises.push({
-          name: "New Exercise",
+          name: "New exercise",
           sets: 3,
           repsMin: 8,
           repsMax: 12,
@@ -1353,7 +1353,7 @@ class TemplateManagementModal extends Modal {
           // Create empty template
           const newTemplate: WorkoutTemplate = {
             id: `custom-${Date.now()}`,
-            name: "New Template",
+            name: "New template",
             description: "",
             exercises: [],
             estimatedDuration: 60,
