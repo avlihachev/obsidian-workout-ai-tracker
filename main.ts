@@ -269,7 +269,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
   async analyzeWorkouts(view: MarkdownView) {
     if (!this.settings.claudeApiKey) {
-      new Notice("Please set your Claude API key in settings");
+      new Notice("Please set your Claude api key in settings");
       return;
     }
 
@@ -280,7 +280,7 @@ export default class WorkoutAIPlugin extends Plugin {
       return;
     }
 
-    new Notice("Analyzing workouts with AI...");
+    new Notice("Analyzing workouts with ai...");
 
     try {
       const analysis = await this.getAIAnalysis(workouts);
@@ -293,7 +293,7 @@ export default class WorkoutAIPlugin extends Plugin {
       new Notice("Analysis complete!");
     } catch (error) {
       console.warn("AI analysis failed:", error);
-      new Notice("Failed to analyze workouts. Check API key and connection.");
+      new Notice("Failed to analyze workouts. Check api key and connection.");
     }
   }
 
@@ -1254,12 +1254,12 @@ class TemplateEditorModal extends Modal {
   async saveTemplate() {
     // Validate
     if (!this.editableTemplate.name.trim()) {
-      new Notice("❌ Name cannot be empty");
+      new Notice("Name cannot be empty");
       return;
     }
 
     if (this.editableTemplate.exercises.length === 0) {
-      new Notice("❌ Please add at least one exercise");
+      new Notice("Please add at least one exercise");
       return;
     }
 
@@ -1428,10 +1428,10 @@ class WorkoutAISettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setHeading()
-      .setName("Workout AI tracker settings");
+      .setName("Workout ai tracker settings");
 
     new Setting(containerEl)
-      .setName("Claude API key")
+      .setName("Claude api key")
       .setDesc("Claude key for analysis")
       .addText((text) =>
         text
