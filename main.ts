@@ -128,7 +128,6 @@ export default class WorkoutAIPlugin extends Plugin {
 
     this.addCommand({
       id: "rest-timer",
-      // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
       name: "Start rest timer",
       callback: () => {
         if (!this.restTimer) {
@@ -270,7 +269,7 @@ export default class WorkoutAIPlugin extends Plugin {
 
   async analyzeWorkouts(view: MarkdownView) {
     if (!this.settings.claudeApiKey) {
-      new Notice("Please set your Claude API key in settings");
+      new Notice("Set your Claude key in settings");
       return;
     }
 
@@ -818,7 +817,6 @@ class RestTimerModal extends Modal {
       timerDisplay.setText(this.formatTime(this.seconds));
 
       if (this.seconds <= 0) {
-        // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
         new Notice("Rest time is over!");
         this.close();
       }
@@ -1224,7 +1222,6 @@ class TemplateEditorModal extends Modal {
         })
       );
 
-      // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
       new Setting(exerciseCard).setName("Rest (seconds)").addText((text) =>
         text.setValue(String(exercise.restSeconds)).onChange((value) => {
           exercise.restSeconds = parseInt(value) || 90;
@@ -1438,7 +1435,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
       .setDesc("Claude key for analysis")
       .addText((text) =>
         text
-          .setPlaceholder("Enter your Claude API key")
+          .setPlaceholder("Enter authentication key")
           .setValue(this.plugin.settings.claudeApiKey)
           .onChange(async (value) => {
             this.plugin.settings.claudeApiKey = value;
@@ -1460,9 +1457,7 @@ class WorkoutAISettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
       .setName("Default rest time")
-      // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
       .setDesc("Default rest time between sets (seconds)")
       .addText((text) =>
         text
@@ -1476,7 +1471,6 @@ class WorkoutAISettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Enable notifications")
-      // eslint-disable-next-line obsidianmd/ui/sentence-case -- Already in correct sentence case format
       .setDesc("Show notifications for rest timer and workout events")
       .addToggle((toggle) =>
         toggle
